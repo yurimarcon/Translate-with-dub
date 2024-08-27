@@ -1,0 +1,8 @@
+[submodule "TTS"]
+    path = TTS
+    url = https://github.com/yurimarcon/TTS.git
+
+[submodule "Wav2Lip"]
+    path = Wav2Lip
+    url = https://github.com/yurimarcon/Wav2Lip.git
+
