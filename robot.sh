@@ -1,10 +1,12 @@
 #!/bin/bash
 
-TASK="translate"
+TASK="transcribe"
+# TASK="translate"
 EXIT_DIR="result/"
 PATH_INPUT_VIDEO="$1" # It must be .mp4
-AUDIO_NAME="audio.wav"
-TRANSCRIPT_NAME="transcript.txt"
+AUDIO_NAME="in.wav"
+# AUDIO_NAME="audio.wav"
+TRANSCRIPT_NAME="transcript.json"
 AUDIO_TRANSLATED_NAME="output.wav"
 VIDEO_RESULT="result.mp4"
 PATH_TRANSCRIPT_TEXT="$EXIT_DIR$TRANSCRIPT_NAME"
@@ -17,7 +19,7 @@ PATH_VIDEO_RESULT_WITHOUT_LIPSINC="${EXIT_DIR}result_without_lipsinc.mp4"
 # 1 - To create a video with lipsync.
 # 2 - To Create a video without lipsync.
 # 0 - To not create any video.
-WITH_LIPSINC=0
+WITH_LIPSINC=2
 
 function validate_input () {
     if [ -z $1 ]; then
@@ -48,10 +50,10 @@ function remove_audio_from_video () {
     validate_error_in_last_comand
 }
 
-function translate_audio_to_english_and_transcript () {
+function translate_or_transcript () {
     date
-    echo "Translating audio to english and transcripting to text..."
-    python translate_transcript.py "$PATH_ORIGINAL_AUDIO" "$TASK" > "$PATH_TRANSCRIPT_TEXT"
+    echo "${TASK}ing audio..."
+    python translate_transcript.py "$PATH_ORIGINAL_AUDIO" "$TASK" "$PATH_TRANSCRIPT_TEXT"
     validate_error_in_last_comand
 }
 
@@ -62,12 +64,12 @@ function genetate_voice_by_transcript () {
     python voice_generator.py   \
         "../$PATH_ORIGINAL_AUDIO"  \
         "../$PATH_TRANSCRIPT_TEXT" \
-        "../$PATH_AUDIO_TRANSLATED"
+        "../$PATH_AUDIO_TRANSLATED" 
     cd ..
     validate_error_in_last_comand
 }
 
-function create_video_with_lipsinc () {
+function create_new_video_with_lipsinc () {
     date
     echo "Building video with lipsync..."
     cd Wav2Lip
@@ -83,7 +85,7 @@ function create_video_with_lipsinc () {
     cd ..
 }
 
-function create_video_with_new_audio_without_lipsinc () {
+function create_new_video_without_lipsinc () {
     date
     echo "Building video without lipsync..."
     cd MoviePy
@@ -109,13 +111,13 @@ validate_input_file_exist $1
 
 echo "Starting process..."
 # remove_audio_from_video
-translate_audio_to_english_and_transcript
-# genetate_voice_by_transcript
+# translate_or_transcript
+genetate_voice_by_transcript
 
 if [ $WITH_LIPSINC -eq 1 ]; then
-    create_video_with_lipsinc
+    create_new_video_with_lipsinc
 elif [ $WITH_LIPSINC -eq 2 ]; then
-    create_video_with_new_audio_without_lipsinc
+    create_new_video_without_lipsinc
 fi
 
 # delete_files_after_process
