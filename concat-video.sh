@@ -4,12 +4,6 @@ RELATIVE_PATH="/Users/yurimarcon/Documents/Udemy/Curso_vue/Vídeos/En-Sessao-3/"
 VIDEO_NUMBER="18"
 RESULT_FILE_NAME="${VIDEO_NUMBER}-Resposivity.mp4"
 QUANTITY_VIDEOS=4
-# INPUT_VIDEO_1="$RELATIVE_PATH""${VIDEO_NUMBER}"-1-cap.mp4
-# INPUT_VIDEO_2="$RELATIVE_PATH""${VIDEO_NUMBER}"-2-cap.mp4
-# INPUT_VIDEO_3="$RELATIVE_PATH""${VIDEO_NUMBER}"-3-cap.mp4
-# INPUT_VIDEO_4="$RELATIVE_PATH""${VIDEO_NUMBER}"-4-cap.mp4
-# INPUT_VIDEO_5="$RELATIVE_PATH""${VIDEO_NUMBER}"-5-cap.mp4
-# OUTPUT_VIDEO="$RELATIVE_PATH""${VIDEO_NUMBER}"-temp.mp4
 
 function concat_video (){
     ffmpeg \
