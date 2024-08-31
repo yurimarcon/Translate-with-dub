@@ -1,11 +1,12 @@
 #!/bin/bash
 
+SOURCE_LINGUAGE="en"
+DEST_LINGUAGE="pt"
 TASK="transcribe"
 # TASK="translate"
 EXIT_DIR="result/"
 PATH_INPUT_VIDEO="$1" # It must be .mp4
-AUDIO_NAME="in.wav"
-# AUDIO_NAME="audio.wav"
+AUDIO_NAME="audio.wav"
 TRANSCRIPT_NAME="transcript.json"
 AUDIO_TRANSLATED_NAME="output.wav"
 VIDEO_RESULT="result.mp4"
@@ -43,9 +44,9 @@ function validate_error_in_last_comand () {
     fi
 }
 
-function remove_audio_from_video () {
+function get_audio_from_video () {
     date
-    echo "Removing audio from video..."
+    echo "Geting audio from video..."
     ffmpeg -i "$PATH_INPUT_VIDEO" -ab 160k -ac 2 -ar 44100 -vn "$PATH_ORIGINAL_AUDIO"
     validate_error_in_last_comand
 }
@@ -53,7 +54,12 @@ function remove_audio_from_video () {
 function translate_or_transcript () {
     date
     echo "${TASK}ing audio..."
-    python translate_transcript.py "$PATH_ORIGINAL_AUDIO" "$TASK" "$PATH_TRANSCRIPT_TEXT"
+    python translate_transcript.py \
+        "$PATH_ORIGINAL_AUDIO" \
+        "$TASK" \
+        "$PATH_TRANSCRIPT_TEXT" \
+        "$SOURCE_LINGUAGE" \
+        "$DEST_LINGUAGE"
     validate_error_in_last_comand
 }
 
@@ -64,7 +70,9 @@ function genetate_voice_by_transcript () {
     python voice_generator.py   \
         "../$PATH_ORIGINAL_AUDIO"  \
         "../$PATH_TRANSCRIPT_TEXT" \
-        "../$PATH_AUDIO_TRANSLATED" 
+        "../$PATH_AUDIO_TRANSLATED" \
+        "$SOURCE_LINGUAGE" \
+        "$DEST_LINGUAGE"
     cd ..
     validate_error_in_last_comand
 }
@@ -110,8 +118,8 @@ validate_input $1
 validate_input_file_exist $1
 
 echo "Starting process..."
-# remove_audio_from_video
-# translate_or_transcript
+get_audio_from_video
+translate_or_transcript
 genetate_voice_by_transcript
 
 if [ $WITH_LIPSINC -eq 1 ]; then
