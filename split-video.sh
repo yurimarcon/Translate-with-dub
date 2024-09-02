@@ -15,14 +15,14 @@ OUTPUT_VIDEO_PART3="${FUTURE_PATH}${VIDEO_NUMBER}-3.mp4"
 # ffmpeg -i "$INPUT_VIDEO" -ss 00:04:59 -c copy ${OUTPUT_VIDEO_PART2}
 
 
-ffmpeg -i "$INPUT_VIDEO" -ss 00:00:00 -to 00:00:59 -c copy ${OUTPUT_VIDEO_PART1}
+# ffmpeg -i "$INPUT_VIDEO" -ss 00:00:00 -to 00:00:59 -c copy ${OUTPUT_VIDEO_PART1}
 ffmpeg -i "$INPUT_VIDEO" -ss 00:00:59 -to 00:01:58 -c copy ${OUTPUT_VIDEO_PART2}
 # ffmpeg -i "$INPUT_VIDEO" -ss 00:09:57 -to 00:14:56 -c copy ${OUTPUT_VIDEO_PART3}
 # ffmpeg -i "$INPUT_VIDEO" -ss 00:14:56 -to 00:19:55 -c copy ${OUTPUT_VIDEO_PART4}
-ffmpeg -i "$INPUT_VIDEO" -ss 00:01:58 -c copy ${OUTPUT_VIDEO_PART3}
+# ffmpeg -i "$INPUT_VIDEO" -ss 00:01:58 -c copy ${OUTPUT_VIDEO_PART3}
 
-
-
+## Split and manteining all the frames, do not make firsts seconds black screen
+# ffmpeg -i v.mp4 -ss 00:00:59 -to 00:01:58 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx264 -c:a aac t.mp4
 
 # count=5
 

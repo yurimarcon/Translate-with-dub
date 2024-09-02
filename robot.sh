@@ -1,9 +1,7 @@
 #!/bin/bash
 
-SOURCE_LINGUAGE="en"
-DEST_LINGUAGE="pt"
-TASK="transcribe"
-# TASK="translate"
+SOURCE_LINGUAGE="pt"
+DEST_LINGUAGE="en"
 EXIT_DIR="result/"
 PATH_INPUT_VIDEO="$1" # It must be .mp4
 AUDIO_NAME="audio.wav"
@@ -15,6 +13,12 @@ PATH_ORIGINAL_AUDIO="$EXIT_DIR$AUDIO_NAME"
 PATH_AUDIO_TRANSLATED="$EXIT_DIR$AUDIO_TRANSLATED_NAME"
 PATH_VIDEO_RESULT="$EXIT_DIR$VIDEO_RESULT"
 PATH_VIDEO_RESULT_WITHOUT_LIPSINC="${EXIT_DIR}result_without_lipsinc.mp4"
+
+if [ $SOURCE_LINGUAGE == "en" ];then
+    TASK="transcribe"
+else
+    TASK="translate"
+fi
 
 # In line below you put the folow options:
 # 1 - To create a video with lipsync.
@@ -118,9 +122,9 @@ validate_input $1
 validate_input_file_exist $1
 
 echo "Starting process..."
-get_audio_from_video
-translate_or_transcript
-genetate_voice_by_transcript
+# get_audio_from_video
+# translate_or_transcript
+# genetate_voice_by_transcript
 
 if [ $WITH_LIPSINC -eq 1 ]; then
     create_new_video_with_lipsinc

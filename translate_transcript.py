@@ -8,10 +8,10 @@ file_transcript_name = sys.argv[3]
 source_lang=sys.argv[4]
 dest_language=sys.argv[5]
 
-model_type = "tiny"
+# model_type = "tiny"
 # model_type = "base"
 # model_type = "small"
-# model_type = "medium"
+model_type = "medium"
 # model_type = "large"
 
 model = whisper.load_model(model_type)
@@ -23,8 +23,10 @@ result = model.transcribe(
     condition_on_previous_text=True,
     fp16=True,
     no_speech_threshold=0.1,
-    compression_ratio_threshold=2.4,
+    compression_ratio_threshold=1.0,
     logprob_threshold=-1.0,
+    # compression_ratio_threshold=2.0,
+    # logprob_threshold=-2.0,
     temperature=0.1,
     beam_size=5,
     best_of=3,
